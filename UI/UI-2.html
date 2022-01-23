@@ -1,0 +1,246 @@
+<!-- CALL REST API ON GATEWAY 1 -- 5001 port -->
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Gateway-2</title>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+
+<style> 
+textarea {
+  width: 50%;
+  height: 350px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 3px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+  overflow-y: scroll;
+}
+button{
+	margin: 20px;
+}
+pre {
+   background-color: ghostwhite;
+   border: 1px solid silver;
+   padding: 10px 20px;
+   margin: 20px; 
+}
+.json-key {
+   color: brown;
+}
+.json-value {
+   color: navy;
+}
+.json-string {
+   color: olive;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>User Shopping Cart - Storage Solution: GATEWAY-2</h2>
+
+  <label for="userId">User ID: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+  <input type="text" id="userId" name="userId"><br><br>
+  <label for="item">Item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+  <input type="text" id="item" name="item"><br><br>
+  <label for="itemCount">Item Count:&nbsp;&nbsp;&nbsp;</label>
+  <input type="text" id="itemCount" name="itemCount"><br><br>
+  <button type="submit" onclick="additems()">ADD ITEMS</button>
+  <button type="submit" onclick="listuser()">LIST USER</button>
+  <button type="submit" onclick="updateitem()">UPDATE ITEMS</button>
+  <button type="submit" onclick="deleteitem()">DELETE ITEMS</button>
+  <button type="submit" onclick="adminalluserlist()">ADMIN ALL USER LIST</button>
+  <button type="submit" onclick="adminlistitem()">ADMIN LIST ITEM</button>
+  <button type="submit" onclick="clearallfiles()">CLEAR ALL DATA</button>
+
+<br><br><br>
+<p>DATA: </p>
+<!-- <textarea id="data"> </textarea> -->
+<pre><code id=data></code></pre>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+	
+function additems(){
+
+	var userId = document.getElementById("userId").value;
+  	var item = document.getElementById("item").value;
+  	var itemCount = document.getElementById("itemCount").value;
+
+	$.ajax({
+	    type: 'POST',
+	    url : "http://0.0.0.0:5001/additems",
+	    data: {'userId' : userId, 'item' : item, 'itemCount' : itemCount},
+	    dataType: 'json',
+	    success: function(response){
+    		// var pretty = JSON.stringify(response, undefined, 4);
+	     // 	document.getElementById("data").value = pretty;
+	     $('#data').html(library.json.prettyPrint(response));
+
+	    },
+	    error: function(jqXHR, textStatus, errorThrown){
+	      alert("The following error occured: "+ textStatus, errorThrown, jqXHR);
+	    }
+    });
+}
+
+function listuser(){
+
+	var userId = document.getElementById("userId").value;
+
+	$.ajax({
+	    type: 'POST',
+	    url : "http://0.0.0.0:5001/listusercart",
+	    data: {'userId' : userId},
+	    dataType: 'json',
+	    success: function(response){
+    	  	// var pretty = JSON.stringify(response, undefined, 4);
+	      	// document.getElementById("data").value = pretty;
+	      	$('#data').html(library.json.prettyPrint(response));
+
+	    },
+	    error: function(jqXHR, textStatus, errorThrown){
+	      alert("The following error occured: "+ textStatus, errorThrown, jqXHR);
+	    }
+    });
+}
+
+function updateitem(){
+
+	var userId = document.getElementById("userId").value;
+  	var item = document.getElementById("item").value;
+  	var itemCount = document.getElementById("itemCount").value;
+
+	$.ajax({
+	    type: 'POST',
+	    url : "http://0.0.0.0:5001/updateitems",
+	    data: {'userId' : userId, 'item' : item, 'itemCount' : itemCount},
+	    dataType: 'json',
+	    success: function(response){
+    		// var pretty = JSON.stringify(response, undefined, 4);
+	     // 	document.getElementById("data").value = pretty;
+	     $('#data').html(library.json.prettyPrint(response));
+
+	    },
+	    error: function(jqXHR, textStatus, errorThrown){
+	      alert("The following error occured: "+ textStatus, errorThrown, jqXHR);
+	    }
+    });
+}
+
+function deleteitem(){
+
+	var userId = document.getElementById("userId").value;
+  	var item = document.getElementById("item").value;
+
+	$.ajax({
+	    type: 'POST',
+	    url : "http://0.0.0.0:5001/deleteitems",
+	    data: {'userId' : userId, 'item' : item},
+	    dataType: 'json',
+	    success: function(response){
+    		// var pretty = JSON.stringify(response, undefined, 4);
+	     // 	document.getElementById("data").value = pretty;
+	     $('#data').html(library.json.prettyPrint(response));
+
+	    },
+	    error: function(jqXHR, textStatus, errorThrown){
+	      alert("The following error occured: "+ textStatus, errorThrown, jqXHR);
+	    }
+    });
+}
+
+function adminalluserlist(){
+
+	$.ajax({
+	    type: 'POST',
+	    url : "http://0.0.0.0:5001/adminlistusers",
+	    dataType: 'json',
+	    success: function(response){
+    		// var pretty = JSON.stringify(response, undefined, 4);
+	     // 	document.getElementById("data").value = pretty;
+	     $('#data').html(library.json.prettyPrint(response));
+
+	    },
+	    error: function(jqXHR, textStatus, errorThrown){
+	      alert("The following error occured: "+ textStatus, errorThrown, jqXHR);
+	    }
+    });
+}
+
+function adminlistitem(){
+
+  	var item = document.getElementById("item").value;
+
+	$.ajax({
+	    type: 'POST',
+	    url : "http://0.0.0.0:5001/adminitems",
+	    data: {'item' : item},
+	    dataType: 'json',
+	    success: function(response){
+    		// var pretty = JSON.stringify(response, undefined, 4);
+	     // 	document.getElementById("data").value = pretty;
+	     $('#data').html(library.json.prettyPrint(response));
+
+	    },
+	    error: function(jqXHR, textStatus, errorThrown){
+	      alert("The following error occured: "+ textStatus, errorThrown, jqXHR);
+	    }
+    });
+}
+
+function clearallfiles(){
+
+	$.ajax({
+	    type: 'GET',
+	    url : "http://0.0.0.0:5001/clearallfiles",
+	    success: function(response){
+    		// var pretty = JSON.stringify(response, undefined, 4);
+	     // 	document.getElementById("data").value = pretty;
+	     $('#data').html(library.json.prettyPrint(response));
+
+	    },
+	    error: function(jqXHR, textStatus, errorThrown){
+	      alert("The following error occured: "+ textStatus, errorThrown, jqXHR);
+	    }
+    });
+}
+
+if (!library)
+   var library = {};
+
+library.json = {
+   replacer: function(match, pIndent, pKey, pVal, pEnd) {
+      var key = '<span class=json-key>';
+      var val = '<span class=json-value>';
+      var str = '<span class=json-string>';
+      var r = pIndent || '';
+      if (pKey)
+         r = r + key + pKey.replace(/[": ]/g, '') + '</span>: ';
+      if (pVal)
+         r = r + (pVal[0] == '"' ? str : val) + pVal + '</span>';
+      return r + (pEnd || '');
+      },
+   prettyPrint: function(obj) {
+      var jsonLine = /^( *)("[\w]+": )?("[^"]*"|[\w.+-]*)?([,[{])?$/mg;
+      return JSON.stringify(obj, null, 3)
+         .replace(/&/g, '&amp;').replace(/\\"/g, '&quot;')
+         .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+         .replace(jsonLine, library.json.replacer);
+      }
+   };
+
+// var planets = [{ name: 'Earth', order: 3, stats: { life: true, mass: 5.9736 * Math.pow(10, 24) } }, { name: 'Saturn', order: 6, stats: { life: null, mass: 568.46 * Math.pow(10, 24) } }];
+// $('#data').html(library.json.prettyPrint(planets));
+
+</script>
+
+</body>
+</html>

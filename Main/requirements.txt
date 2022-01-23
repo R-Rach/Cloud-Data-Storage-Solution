@@ -1,0 +1,22 @@
+wheel
+cython
+appdirs==1.4.3
+certifi==2020.6.20
+click==7.1.2
+crush==1.0.35
+Cython @ file:///tmp/build/80754af9/cython_1594831565616/work
+d2to1==0.2.12.post1
+Flask==1.1.2
+itsdangerous==1.1.0
+Jinja2==2.11.2
+kazoo==2.8.0
+MarkupSafe==1.1.1
+numpy==1.12.1
+packaging==16.8
+pandas==0.19.2
+pbr==3.0.0
+pyparsing==2.2.0
+python-dateutil==2.6.0
+pytz==2017.2
+six==1.10.0
+Werkzeug==1.0.1

@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  gateway1:
+    build: .
+    container_name: storage_solution_app_gateway1
+    command: python3 driver.py --port 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - shoppingcart_data:/app/data
+    links:
+      - zookeeper
+  gateway2:
+    build: .
+    container_name: storage_solution_app_gateway2
+    command: python3 driver.py --port 5001
+    ports:
+      - "5001:5001"
+    volumes:
+      - shoppingcart_data:/app/data
+    links:
+      - zookeeper
+  zookeeper:
+    image: "bitnami/zookeeper:latest"
+    container_name: zk_container
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+volumes:
+  shoppingcart_data:
